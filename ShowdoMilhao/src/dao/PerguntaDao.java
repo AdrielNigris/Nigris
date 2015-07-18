@@ -45,7 +45,69 @@ public class PerguntaDao {
             retorno = false;
         }
     return retorno;
-    }   
+    }  
+     
+     
+     public List<Pergunta> listarNivel1()
+    {
+        List<Pergunta> lista = new ArrayList<Pergunta>();
+        String sql = "SELECT * FROM pergunta WHERE nivel = 1 ORDER BY random() LIMIT 4 ";
+          PreparedStatement pst = Conexao.getPreparedStatement(sql);
+        try
+        {
+            ResultSet res = pst.executeQuery();
+            while(res.next())
+            {
+                Pergunta pergunta = new Pergunta();
+                pergunta.setEnunciado(res.getString("enunciado"));
+                pergunta.setA(res.getString("a"));
+                pergunta.setB(res.getString("b"));
+                pergunta.setC(res.getString("c"));
+                pergunta.setD(res.getString("d"));
+                pergunta.setCerta(res.getString("certa"));
+                pergunta.setNivel(res.getInt("nivel"));
+                pergunta.setId(res.getInt("id"));
+                lista.add(pergunta);
+            }
+        }
+        catch (SQLException ex )
+        {
+            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null,ex);
+        }
+        return lista;
+        
+    }
+     
+    public List<Pergunta> listarNivel2 ()
+    {
+        List<Pergunta> lista = new ArrayList<Pergunta>();
+        String sql = "SELECT * FROM pergunta WHERE nivel = 2 ORDER BY random() LIMIT 4 ";
+          PreparedStatement pst = Conexao.getPreparedStatement(sql);
+        try
+        {
+            ResultSet res = pst.executeQuery();
+            while(res.next())
+            {
+                Pergunta pergunta = new Pergunta();
+                pergunta.setEnunciado(res.getString("enunciado"));
+                pergunta.setA( res.getString("a"));
+                pergunta.setB( res.getString("b"));
+                pergunta.setC( res.getString("c"));
+                pergunta.setD(res.getString("d"));
+                pergunta.setCerta(res.getString("certa"));
+                pergunta.setNivel(res.getInt("nivel"));
+                pergunta.setId(res.getInt("id"));
+                lista.add(pergunta);
+            }
+        }
+        catch (SQLException ex )
+        {
+            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null,ex);
+        }
+        return lista;
+        
+    }
+        
      public List<Pergunta> listar()
     {
     List<Pergunta> lista = new ArrayList<Pergunta>();
@@ -58,14 +120,14 @@ public class PerguntaDao {
         while(res.next())
         {
             Pergunta pergunta = new Pergunta();
-            pergunta.setEnunciado(res.getString("Enunciado"));
-            pergunta.setA( res.getString("A"));
-            pergunta.setB( res.getString("B"));
-            pergunta.setC( res.getString("C"));
-            pergunta.setD(res.getString("D"));
-            pergunta.setCerta(res.getString("Certa"));
-            pergunta.setNivel(res.getInt("Nivel"));
-            pergunta.setId(res.getInt("Id"));
+            pergunta.setEnunciado(res.getString("enunciado"));
+            pergunta.setA( res.getString("a"));
+            pergunta.setB( res.getString("b"));
+            pergunta.setC( res.getString("c"));
+            pergunta.setD(res.getString("d"));
+            pergunta.setCerta(res.getString("certa"));
+            pergunta.setNivel(res.getInt("nivel"));
+            pergunta.setId(res.getInt("id"));
             
             lista.add(pergunta);
             

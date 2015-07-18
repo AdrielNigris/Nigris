@@ -3,6 +3,7 @@ package modelo;
 public class Pergunta {
     private String a, b, c, d, certa, enunciado;
     private Integer nivel, id;
+    
 
     public Integer getId() {
         return id;

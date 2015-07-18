@@ -7,12 +7,18 @@
 package admin;
 
 import dao.JogadorDao;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import modelo.Jogador;
+import modelo.ManipularImagem;
 
 /**
  *
@@ -20,9 +26,10 @@ import modelo.Jogador;
  */
 public class jogadorManter extends javax.swing.JFrame {
     
-    List<Jogador> lista;
-    Integer posicao, ultimo;
-
+    private List<Jogador> lista;
+    private Integer posicao, ultimo;
+    private BufferedImage imagem;
+    
     /**
      * Creates new form jogadorManter
      */
@@ -64,6 +71,9 @@ public class jogadorManter extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        lblFoto = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,7 +127,7 @@ public class jogadorManter extends javax.swing.JFrame {
                 .addComponent(botaoPrimeiro)
                 .addGap(18, 18, 18)
                 .addComponent(botaoAnterior)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addComponent(botaoProximo)
                 .addGap(18, 18, 18)
                 .addComponent(botaoUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,6 +286,17 @@ public class jogadorManter extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        lblFoto.setText("    ");
+
+        jButton1.setText("Escolher Foto");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Foto:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -284,45 +305,62 @@ public class jogadorManter extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(botaoVoltar1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jogador)
-                        .addGap(81, 81, 81)
-                        .addComponent(listagem)
-                        .addContainerGap())))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 82, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(botaoVoltar1)
+                                    .addGap(214, 214, 214)
+                                    .addComponent(jogador))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(63, 63, 63)
+                                        .addComponent(jButton1))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(59, 59, 59)
+                                        .addComponent(jLabel1))))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(listagem)
+                            .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(listagem)
-                        .addGap(57, 57, 57)
-                        .addComponent(jLabel1))
+                    .addComponent(botaoVoltar1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jogador)
-                            .addComponent(botaoVoltar1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(listagem)
+                            .addComponent(jogador))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(48, 48, 48)
+                                        .addComponent(jLabel1))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(32, 32, 32)
+                                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(54, 54, 54)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton1)
+                                    .addComponent(jLabel5))
+                                .addGap(48, 48, 48)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -339,7 +377,9 @@ public class jogadorManter extends javax.swing.JFrame {
             txtLogin.setText(elemento.getLogin());
             txtSenha.setText(elemento.getSenha());
             txtEmail.setText(elemento.getEmail());
-                    }
+            ManipularImagem.exibiImagemLabel(elemento.getImagem(), lblFoto);
+        
+        }
         if (lista.size() == 1) {
             botaoProximo.setEnabled(false);
 
@@ -357,6 +397,7 @@ public class jogadorManter extends javax.swing.JFrame {
             txtLogin.setText(elemento.getLogin());
             txtSenha.setText(elemento.getSenha());
             txtEmail.setText(elemento.getEmail());
+            ManipularImagem.exibiImagemLabel(elemento.getImagem(), lblFoto);
         }
         if (lista.size() == 1) {
             botaoProximo.setEnabled(false);
@@ -374,6 +415,7 @@ public class jogadorManter extends javax.swing.JFrame {
             txtLogin.setText(elemento.getLogin());
             txtSenha.setText(elemento.getSenha());
             txtEmail.setText(elemento.getEmail());
+            ManipularImagem.exibiImagemLabel(elemento.getImagem(), lblFoto);
             
         }
         if (lista.size() - 1 == posicao) {
@@ -393,6 +435,7 @@ public class jogadorManter extends javax.swing.JFrame {
             txtLogin.setText(elemento.getLogin());
             txtSenha.setText(elemento.getSenha());
             txtEmail.setText(elemento.getEmail());
+            ManipularImagem.exibiImagemLabel(elemento.getImagem(), lblFoto);
             
         }
         if (lista.size() - 1 == posicao && lista.size() == 1) {
@@ -421,6 +464,7 @@ public class jogadorManter extends javax.swing.JFrame {
             obj.setLogin(txtLogin.getText());
             obj.setSenha(txtSenha.getText());
             obj.setEmail(txtEmail.getText());
+            obj.setImagem(ManipularImagem.getImgBytes(imagem));
             lista.add(obj);
             
             try{            
@@ -507,6 +551,17 @@ public class jogadorManter extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSenhaActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser fc = new JFileChooser();
+        int res = fc.showOpenDialog(null);
+        if(res == JFileChooser.APPROVE_OPTION){
+            File file = fc.getSelectedFile();
+            imagem = ManipularImagem.setImagemDimensao(file.getAbsolutePath(), 160, 160);
+            lblFoto.setIcon(new ImageIcon(imagem));
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void Limpar() {
         txtLogin.setText("");
         txtSenha.setText("");
@@ -559,14 +614,17 @@ public class jogadorManter extends javax.swing.JFrame {
     private javax.swing.JButton botaoProximo;
     private javax.swing.JButton botaoUltimo;
     private javax.swing.JButton botaoVoltar1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel jogador;
+    private javax.swing.JLabel lblFoto;
     private javax.swing.JButton listagem;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtLogin;

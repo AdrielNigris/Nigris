@@ -37,19 +37,19 @@ public class rankingListar extends javax.swing.JFrame {
         
         Ranking r = new Ranking();
         r.getJogador().setLogin("Erik");
-        r.setPontos(500);
+        r.setPontos(500.0);
         r.setData(data);
         lista.add(r);
         
         r = new Ranking();
         r.getJogador().setLogin("Pietro");
-        r.setPontos(150);
+        r.setPontos(150.0);
         r.setData(data);
         lista.add(r);
         
         r = new Ranking();
         r.getJogador().setLogin("Wanda");
-        r.setPontos(1000000);
+        r.setPontos(1000000.0);
         r.setData(data);
         lista.add(r);
 

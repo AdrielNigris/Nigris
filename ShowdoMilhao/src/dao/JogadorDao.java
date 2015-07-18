@@ -21,73 +21,147 @@ import modelo.Jogador;
  */
 public class JogadorDao {
 
-    public Boolean inserir(Jogador jogador)
+    public Boolean inserir (Jogador jogador)
     {
         Boolean retorno;
-        String sql = "INSERT INTO jogador(login,senha,email)" + "VALUES (?,?,?)";
-        PreparedStatement pst = Conexao.getPreparedStatement(sql);
-        try
-        {
-        pst.setString(1, jogador.getLogin());
-        pst.setString(2, jogador.getSenha());
-        pst.setString(3, jogador.getEmail());
+        //Monta o sql de insert da tabela
+        String sql = "INSERT INTO jogador(login, senha, email, imagem)" + "VALUES (?, ?, ?, ?)";
         
-        pst.executeUpdate();
-        retorno = true;
+        //Prepara a execução do meu sql
+        PreparedStatement pst = Conexao.getPreparedStatement(sql);
+        
+        try 
+        {
+            //insere os parâmetros
+            pst.setString(1, jogador.getLogin()); //esse 1 é a ordem dos parâmetros
+            pst.setString(2, jogador.getSenha());
+            pst.setString(3, jogador.getEmail());
+            pst.setBytes(4, jogador.getImagem());
+            
+            //executa o sql no banco de dados
+            pst.executeUpdate();
+            retorno = true;
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
             retorno = false;
         }
-    return retorno;
+        
+        return retorno;
     }
-
-
+    
     public List<Jogador> listar()
     {
-    List<Jogador> lista = new ArrayList<Jogador>();
-    String sql = "SELECT * FROM jogador";
-    PreparedStatement pst = Conexao.getPreparedStatement(sql);
-    
-    try{
-        ResultSet res = pst.executeQuery();
+        List <Jogador> lista = new ArrayList<Jogador>();
+        String sql = "SELECT * FROM jogador";
+        PreparedStatement pst = Conexao.getPreparedStatement(sql);
         
-        while(res.next())
-        {
-            Jogador jogador = new Jogador();
-            jogador.setLogin(res.getString("login"));
-            jogador.setSenha(res.getString("senha"));
-            jogador.setEmail(res.getString("email"));
-            lista.add(jogador);
+        try 
+        { 
+            //Executo o sql e jogo em um resultset
+            ResultSet res = pst.executeQuery();
+            //Enquanto tiver registro eu vou relacionar com minha classe Jogador e adicionar na lista
+            while (res.next())
+            {
+                Jogador jogador = new Jogador();
+                jogador.setLogin(res.getString("login"));
+                jogador.setSenha(res.getString("senha"));
+                jogador.setEmail(res.getString("email"));
+                jogador.setImagem(res.getBytes("imagem"));
+                lista.add(jogador);
+            }
         }
         
-    } catch (SQLException Ex) {
-        Logger.getLogger(JogadorDao.class.getName()).log(Level.SEVERE, null, Ex);
-    }
-    return lista;
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(JogadorDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
     }
     
-    
-    public Boolean excluir(Jogador jogador)
+    public Boolean excluir (Jogador jogador)
     {
         Boolean retorno;
-        String sql = "DELETE FROM jogador WHERE login = ?";
-        PreparedStatement pst = Conexao.getPreparedStatement(sql);
-        try
-        {
-        pst.setString(1, jogador.getLogin());
         
-        pst.executeUpdate();
-        retorno = true;
+        String sql = "DELETE FROM jogador WHERE login = ?";
+        
+        //Prepara a execução do meu sql
+        PreparedStatement pst = Conexao.getPreparedStatement(sql);
+        
+        try 
+        {
+            pst.setString(1, jogador.getLogin());
+            pst.executeUpdate();
+            retorno = true;
         }
+        
+        catch (Exception ex)
+        {
+            retorno = false;         
+        }
+        
+        return retorno;
+    }
+    
+    public Boolean atualizar (Jogador jogador)
+    {
+        Boolean retorno;
+        
+        String sql = "UPDATE JOGADOR SET SENHA = ?, EMAIL = ? WHERE LOGIN = ?, imagem = ?";
+        
+        PreparedStatement pst = Conexao.getPreparedStatement(sql);
+        
+        try 
+        {
+            pst.setString(1, jogador.getSenha());
+            pst.setString(2, jogador.getEmail());
+            pst.setString(3, jogador.getLogin());
+            pst.setBytes(4, jogador.getImagem());
+            
+            pst.executeUpdate();
+            retorno = true;
+        } 
         catch (Exception ex)
         {
             ex.printStackTrace();
             retorno = false;
         }
-    return retorno;
+        
+        return retorno;
     }
-
-
+    
+    public Jogador login (Jogador jogador)
+    {
+        Jogador retorno = null;
+        String sql = "SELECT * FROM jogador WHERE login = ? and senha = ? ";
+        
+        PreparedStatement pst = Conexao.getPreparedStatement(sql);
+        
+        try 
+        {
+            pst.setString(1, jogador.getLogin());
+            pst.setString(2, jogador.getSenha());
+            
+            ResultSet res = pst.executeQuery();
+            
+            //se tiver um jogador com login e senha igual ao informado
+            //preenche todos os campos
+            
+            if (res.next())
+            {
+                retorno = new Jogador();
+                retorno.setEmail(res.getString("email"));
+                retorno.setLogin(res.getString("login"));
+                retorno.setSenha(res.getString("senha"));
+                retorno.setImagem(res.getBytes("Imagem"));
+            }
+        } 
+        catch (Exception e) 
+        {
+            
+        }
+        
+        return retorno;
+    }
 }

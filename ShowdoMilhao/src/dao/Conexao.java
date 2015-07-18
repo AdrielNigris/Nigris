@@ -20,7 +20,7 @@ public class Conexao {
      * muda-se somente o nome do banco
      */
     private static final String banco = 
-            "jdbc:postgresql://localhost:5432/showdomilhao";
+            "jdbc:postgresql://localhost:5432/ShowDoMilhao";
     /**
      * O atributo driver representa a classe do Driver JDBC que será usada na 
      * conexão. Quando se utiliza outros bancos usa-se a classe apropriada a 

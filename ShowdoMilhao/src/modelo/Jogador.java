@@ -3,7 +3,9 @@ package modelo;
 public class Jogador {
     private String login, senha, email;
     private Integer id;
-
+    private byte[] imagem;
+    
+    
     public Integer getId() {
         return id;
     }
@@ -35,6 +37,12 @@ public class Jogador {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
+    }
 }
